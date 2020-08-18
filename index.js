@@ -86,28 +86,28 @@ function finalScore(inning, innings){
     "Home": 0,
     "Away": 0,
   };
-  for(let x=0;x<=innings;x++){
-    score.Home+=inning();
-    score.Away+=inning();
+  for(let x=0;x<innings;x++){
+    score["Home"]+=inning();
+    score["Away"]+=inning();
   }
   return score;
 }
 
-//console.log(finalScore(inning,9));
+
 
 
 /* Task 4: 
 
 Create a function called `scoreboard` that accepts the following parameters: 
 
-(1) Callback function `getInningScore`
+(1) Callback function `finalScore`
 (2) Callback function `inning`
 (3) A number of innings
 
 and returns the score at each point in the game, like so:
 1st inning: awayTeam - homeTeam
 2nd inning: awayTeam - homeTeam
-3rd inning: awayTeam - homeTeam
+3rd inning: awayTeam - homeTeamD
 4th inning: awayTeam - homeTeam
 5th inning: awayTeam - homeTeam
 6th inning: awayTeam - homeTeam
@@ -116,30 +116,16 @@ and returns the score at each point in the game, like so:
 9th inning: awayTeam - homeTeam
 Final Score: awayTeam - homeTeam */
 
-let awayTotal=0;
-let homeTotal=0;
-let inningScore=[];
-
-function scoreboard(getInningScore,inning,numInnings) {
-  let currentInning=0;
-  for(let x=0;x<numInnings;x++){
-    let awayTeam=0;
-    let homeTeam=0;
-    currentInning++;
-    awayTeam+=inning();
-    homeTeam+=inning();
-    inningScore.push(getInningScore(awayTeam,homeTeam));
-    console.log(`${currentInning}st inning: awayTeam ${inningScore[x][0]} - homeTeam ${inningScore[x][1]}`);
-    awayTotal+=inningScore[x][0];
-    homeTotal+=inningScore[x][1];
-  }
-  console.log(`Final Score: awayTeam ${awayTotal} - homeTeam ${homeTotal}`);
+function scoreboard(finalScore,inning,numInnings) {
+    let inningScore=[];
+    let awayTeam=0, homeTeam=0;
+    for(let x=1;x<=numInnings;x++){
+      inningScore.push(finalScore(inning,1));
+      console.log(`${x}st inning: awayTeam ${inningScore[x-1].Home}- homeTeam ${inningScore[x-1].Away}`);
+      homeTeam+=inningScore[x-1].Home;
+      awayTeam+=inningScore[x-1].Away;
+    }
+ return(`Final Score: awayTeam ${awayTeam} - homeTeam ${homeTeam}`);
 }
 
-
-function getInningScore(awayTeam,homeTeam){
-  let inningScore=[awayTeam,homeTeam];
-  return (inningScore);
-}
-
-scoreboard(getInningScore,inning,9);
+console.log(scoreboard(finalScore,inning,9));
